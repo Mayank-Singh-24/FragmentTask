@@ -22,13 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerViewUser;
-    private UserAdapter mUserAdapter;
-    private RecyclerView mRecyclerViewInfoUser;
-    private InfoUserAdapter mInfoUserAdapter;
-    private RecyclerView mRecyclerViewImage;
-    private ImageAdapter mImageAdapter;
-    public int flag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +37,11 @@ public class MainActivity extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.posts:
                                 selectedFragment = new FragmentPosts();
-                                flag=1;
                                 break;
                             case R.id.images:
                                 selectedFragment = new FragmentImages();
-                                flag=2;
                                 break;
                             case R.id.users:
-                                flag=3;
                                 selectedFragment = new FragmentUsers();
                                 break;
                         }
@@ -66,28 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if(flag==1){
-            mRecyclerViewInfoUser=findViewById(R.id.recycler_view_user);
-            mRecyclerViewInfoUser.setLayoutManager(new LinearLayoutManager(this));
-            mRecyclerViewInfoUser.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-            mInfoUserAdapter = new InfoUserAdapter();
-            getAllInfoUsers();
-        }
-        if(flag==2){
-            mRecyclerViewImage=findViewById(R.id.recycler_view_images);
-            mRecyclerViewImage.setLayoutManager(new LinearLayoutManager(this));
-            mRecyclerViewImage.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-            mImageAdapter = new ImageAdapter();
-            getAllPhotos();
-        }
-        if(flag==3){
-            mRecyclerViewUser = findViewById(R.id.recycler_view_posts);
-            mRecyclerViewUser.setLayoutManager(new LinearLayoutManager(this));
-            mRecyclerViewUser.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-            mUserAdapter = new UserAdapter();
-            getAllUsers();
 
-        }
 
 
 
@@ -96,62 +66,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    public void getAllUsers() {
-        NetworkHandler.instance().mJsonPlaceHolderApi.posts().enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                if (response.isSuccessful()) {
-                    List<Post> posts = response.body();
-                    mUserAdapter.setData(posts);
-                    mRecyclerViewUser.setAdapter(mUserAdapter);
-                }
 
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Went wrong", Toast.LENGTH_SHORT).show();
-                Log.i("onFailure", "fail");
-            }
-        });
-    }
-    public void getAllPhotos() {
-        NetworkHandler.instance().mJsonPlaceHolderApi.photos().enqueue(new Callback<List<Photos>>(){
-            @Override
-            public void onResponse(Call<List<Photos>> call, Response<List<Photos>> response) {
-                if (response.isSuccessful()) {
-                    List<Photos> photos = response.body();
-                    mImageAdapter.setData(photos);
-                    mRecyclerViewImage.setAdapter(mImageAdapter);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Photos>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Went wrong", Toast.LENGTH_SHORT).show();
-                Log.i("onFailure", "fail");
-            }
-        } );
-
-    }
-    public void getAllInfoUsers() {
-        NetworkHandler.instance().mJsonPlaceHolderApi.users().enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if (response.isSuccessful()) {
-                    List<User> users = response.body();
-                    mInfoUserAdapter.setData(users);
-                    mRecyclerViewUser.setAdapter(mInfoUserAdapter);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Went wrong", Toast.LENGTH_SHORT).show();
-                Log.i("onFailure", "fail");
-            }
-        });
-    }
 }
