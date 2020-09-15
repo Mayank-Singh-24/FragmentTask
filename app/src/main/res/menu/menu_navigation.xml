@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/posts"
+        android:title="Posts"
+        android:icon="@drawable/ic_post"/>
+    <item
+        android:id="@+id/images"
+        android:title="Images"
+        android:icon="@drawable/ic_image"/>
+    <item
+        android:id="@+id/users"
+        android:title="Users"
+        android:icon="@drawable/ic_users"/>
+</menu>
